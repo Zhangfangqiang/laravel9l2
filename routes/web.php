@@ -21,9 +21,8 @@ Route::get('/email/verify/{id}/{hash}', [App\Http\Controllers\Auth\VerificationC
 Route::post('/email/verification-notification', [App\Http\Controllers\Auth\VerificationController::class, 'resend'])->name('verification.resend');
 
 
-
 Route::get('/', 'PagesController@root')->name('root');
-
+Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'edit']]);
-
-
+Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
