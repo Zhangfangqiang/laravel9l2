@@ -7,6 +7,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 class Kernel extends HttpKernel
 {
     /**
+     * 全局中间件
      * The application's global HTTP middleware stack.
      *
      * These middleware are run during every request to your application.
@@ -24,6 +25,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
+     * 设定中间件组
      * The application's route middleware groups.
      *
      * @var array<string, array<int, class-string|string>>
@@ -37,6 +39,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\EnsureEmailIsVerified::class,
+            \App\Http\Middleware\RecordLastActivedTime::class,
         ],
 
         'api' => [
@@ -47,6 +50,7 @@ class Kernel extends HttpKernel
     ];
 
     /**
+     * 定义中间件别名
      * The application's route middleware.
      *
      * These middleware may be assigned to groups or used individually.

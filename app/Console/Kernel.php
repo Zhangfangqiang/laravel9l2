@@ -16,6 +16,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        /**
+         * 要在linux 的定时任务写写上这个
+          * * * * * php /home/vagrant/Code/larabbs/artisan schedule:run >> /dev/null 2>&1
+         */
+        $schedule->command('larabbs:calculate-active-user')->hourly();
+        $schedule->command('larabbs:sync-user-actived-at')->dailyAt('00:00');
+
     }
 
     /**
@@ -26,7 +33,6 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
-
         require base_path('routes/console.php');
     }
 }

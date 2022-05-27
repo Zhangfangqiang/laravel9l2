@@ -4,18 +4,28 @@
     <a class="navbar-brand " href="{{ url('/') }}">
       LaraBBS
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
       <!-- Left Side Of Navbar -->
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link {{ active_class(if_route('topics.index')) }}" href="{{ route('topics.index') }}">话题</a></li>
-        <li class="nav-item"><a class="nav-link {{ active_class((if_route('categories.show') && if_route_param('category', 1))) }}" href="{{ route('categories.show', 1) }}">分享</a></li>
-        <li class="nav-item"><a class="nav-link {{ active_class((if_route('categories.show') && if_route_param('category', 2))) }}" href="{{ route('categories.show', 2) }}">教程</a></li>
-        <li class="nav-item"><a class="nav-link {{ active_class((if_route('categories.show') && if_route_param('category', 3))) }}" href="{{ route('categories.show', 3) }}">问答</a></li>
-        <li class="nav-item"><a class="nav-link {{ active_class((if_route('categories.show') && if_route_param('category', 4))) }}" href="{{ route('categories.show', 4) }}">公告</a></li>
+        <li class="nav-item"><a class="nav-link {{ active_class(if_route('topics.index')) }}"
+                                href="{{ route('topics.index') }}">话题</a></li>
+        <li class="nav-item"><a
+            class="nav-link {{ active_class((if_route('categories.show') && if_route_param('category', 1))) }}"
+            href="{{ route('categories.show', 1) }}">分享</a></li>
+        <li class="nav-item"><a
+            class="nav-link {{ active_class((if_route('categories.show') && if_route_param('category', 2))) }}"
+            href="{{ route('categories.show', 2) }}">教程</a></li>
+        <li class="nav-item"><a
+            class="nav-link {{ active_class((if_route('categories.show') && if_route_param('category', 3))) }}"
+            href="{{ route('categories.show', 3) }}">问答</a></li>
+        <li class="nav-item"><a
+            class="nav-link {{ active_class((if_route('categories.show') && if_route_param('category', 4))) }}"
+            href="{{ route('categories.show', 4) }}">公告</a></li>
       </ul>
 
       <!-- Right Side Of Navbar -->
@@ -27,9 +37,17 @@
         @else
           <li class="nav-item">
             <a class="nav-link mt-1 mr-3 font-weight-bold" href="{{ route('topics.create') }}">
-              <i class="fa-solid fa-plus"></i>
+              <i class="fa fa-plus"></i>
             </a>
           </li>
+          <li class="nav-item notification-badge">
+            <a
+              class="nav-link ms-3 me-3 badge bg-secondary rounded-pill badge-{{ Auth::user()->notification_count > 0 ? 'hint' : 'secondary' }} text-white"
+              href="{{ route('notifications.index') }}">
+              {{ Auth::user()->notification_count }}
+            </a>
+          </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
                aria-haspopup="true" aria-expanded="false">
@@ -37,12 +55,22 @@
                    class="img-responsive img-circle" width="30px" height="30px">
               {{ Auth::user()->name }}
             </a>
+
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="{{ route('users.show', Auth::id()) }}">
                 <i class="far fa-user mr-2"></i>
                 个人中心
               </a>
               <div class="dropdown-divider"></div>
+
+              @can('manage_contents')
+                <a class="dropdown-item" href="{{ url(config('administrator.uri')) }}">
+                  <i class="fas fa-tachometer-alt mr-2"></i>
+                  管理后台
+                </a>
+                <div class="dropdown-divider"></div>
+              @endcan
+
               <a class="dropdown-item" href="{{ route('users.edit', Auth::id()) }}">
                 <i class="far fa-edit mr-2"></i>
                 编辑资料
